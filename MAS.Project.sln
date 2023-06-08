@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAS - Project", "MAS - Project\MAS - Project.csproj", "{0255053F-BAEF-4C22-8464-B2CD784ED26C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAS.Project", "MAS.Project\MAS.Project.csproj", "{0255053F-BAEF-4C22-8464-B2CD784ED26C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
