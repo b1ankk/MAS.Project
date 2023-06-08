@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server
+    container_name: "SQLServer_MAS"
+    user: root
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password1
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_mas_data:/var/opt/mssql/data
+
+volumes:
+  sqlserver_mas_data:
