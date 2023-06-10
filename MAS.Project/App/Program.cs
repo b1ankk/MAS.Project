@@ -1,6 +1,10 @@
+using MAS.Project.App;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
+builder.Services.AddBackendServices(builder.Configuration);
+
 builder.Services.AddRazorPages();
 
 var app = builder.Build();

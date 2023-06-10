@@ -2,7 +2,7 @@
 
 namespace MAS.Project.Model;
 
-public class Patient : IUser
+public class Patient : Entity, IUser
 {
     public Patient() {
         Parent = new User(this) {

@@ -2,7 +2,7 @@ using MAS.Project.Model.ValueObjects;
 
 namespace MAS.Project.Model;
 
-public class User : IUser
+public class User : Entity, IUser
 {
     private readonly Patient? patient;
     private readonly MedicalWorker? medicalWorker;

@@ -1,6 +1,6 @@
 namespace MAS.Project.Model.ValueObjects;
 
-public struct Address
+public class Address
 {
     public required string Street { get; set; }
     public required string StreetNumber { get; set; }
