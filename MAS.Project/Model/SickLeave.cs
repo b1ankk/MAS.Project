@@ -12,4 +12,7 @@ public class SickLeave
     public required string IssuerLastName { get; init; }
     public required string CompanyName { get; init; }
     public required string CompanyNip { get; init; }
+
+    public required ServiceResult ServiceResult { get; set; }
+    public required Doctor DoctorIssuedBy { get; set; }
 }

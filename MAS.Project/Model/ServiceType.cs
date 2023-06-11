@@ -8,4 +8,8 @@ public class ServiceType
     public TimeOnly? MinStartTime { get; set; }
     public TimeOnly? MaxStartTime { get; set; }
     public string? RecommendationsBeforeService { get; set; }
+
+    public ICollection<Service> Services { get; set; } = null!;
+    public ICollection<MedicalWorker> AuthorizedMedicalWorkers { get; set; } = null!;
+    public ICollection<ServiceReferral> ServiceReferrals { get; set; } = null!;
 }

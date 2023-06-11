@@ -9,4 +9,8 @@ public class Prescription
     public required string IssuerLastName { get; init; }
     public required DateTime Issued { get; init; }
     public required DateOnly ExpiresDate { get; init; }
+
+    public required ServiceResult ServiceResult { get; set; }
+    public required Doctor DoctorIssuedBy { get; set; }
+    public ICollection<MedicationOnPrescription> MedicationsOnPrescription { get; set; } = null!;
 }

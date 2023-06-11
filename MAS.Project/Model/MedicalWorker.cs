@@ -20,6 +20,9 @@ public abstract class MedicalWorker : Entity, IUser
     public required decimal Salary { get; set; }
     public required DateOnly EmployedDate { get; set; }
 
+    public ICollection<ServiceType> AuthorizedServiceTypes { get; set; } = null!;
+    public ICollection<Service> ConductedServices { get; set; } = null!;
+    
     public User Parent { get; }
 
     public override long Id {

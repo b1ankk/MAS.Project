@@ -19,6 +19,9 @@ public class Patient : Entity, IUser
 
     public required DateTime Registered { get; set; }
 
+    public ICollection<ServiceResult> ServiceResults { get; set; }
+    public ICollection<ServiceTimeSlot> BookedServiceTimeSlots { get; set; }
+    
     public User Parent { get; }
 
     public override long Id {
