@@ -8,6 +8,9 @@ public class MedicalWorkerConfiguration : IEntityTypeConfiguration<MedicalWorker
 {
     public void Configure(EntityTypeBuilder<MedicalWorker> builder) {
         builder.ConfigureAsUserDescendant();
+
+        builder.Property(x => x.Salary)
+            .HasPrecision(10, 2);
         
         builder.HasOne(x => x.Parent)
             .WithOne()
