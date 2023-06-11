@@ -1,6 +1,6 @@
 ﻿namespace MAS.Project.Model;
 
-public class ServiceResult
+public class ServiceResult : Entity
 {
     public string? Recommendations { get; set; }
     public string? ExaminationResults { get; set; }
@@ -9,6 +9,6 @@ public class ServiceResult
     public required ServiceTimeSlot ServiceTimeSlot { get; set; }
     public required Patient PatientIssuedFor { get; set; }
     public ICollection<ServiceReferral> ServiceReferrals { get; set; } = null!;
+    public ICollection<Prescription> Prescriptions { get; set; } = null!;
     public SickLeave? SickLeave { get; set; }
-    public Prescription? Prescription { get; set; }
 }

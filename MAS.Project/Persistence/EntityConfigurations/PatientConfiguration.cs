@@ -13,6 +13,7 @@ public class PatientConfiguration : IEntityTypeConfiguration<Patient>
             .WithOne()
             .HasPrincipalKey<User>(x => x.Id)
             .HasForeignKey<Patient>(x => x.Id)
-            .IsRequired();
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

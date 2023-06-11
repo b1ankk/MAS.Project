@@ -1,6 +1,6 @@
 ﻿namespace MAS.Project.Model;
 
-public class ServiceType
+public class ServiceType : Entity
 {
     public required string Name { get; set; }
     public TimeSpan? MinDuration { get; set; }

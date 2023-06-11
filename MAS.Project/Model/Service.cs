@@ -1,6 +1,6 @@
 ﻿namespace MAS.Project.Model;
 
-public class Service
+public class Service : Entity
 {
     public required decimal Price { get; set; }
     public ISet<string> CronForTimeSlotGeneration { get; set; } = new HashSet<string>();

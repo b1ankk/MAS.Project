@@ -1,6 +1,6 @@
 ﻿namespace MAS.Project.Model;
 
-public class SickLeave
+public class SickLeave : Entity
 {
     public required DateOnly StartDate { get; init; }
     public required DateOnly EndDate { get; init; }

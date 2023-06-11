@@ -2,7 +2,7 @@
 
 namespace MAS.Project.Model;
 
-public class ServiceTimeSlot
+public class ServiceTimeSlot : Entity
 {
     public required DateTime Start { get; set; }
     public required DateTime End { get; set; }
@@ -10,8 +10,8 @@ public class ServiceTimeSlot
     public required bool Archived { get; set; }
     public string? PatientsNote { get; set; }
 
-    public Service Service { get; set; } = null!;
+    public required Service Service { get; set; }
     public ServiceResult? ServiceResult { get; set; }
-    public Patient? BookedBy { get; set; }
-    public ServiceReferral? BookedWithServiceReferral { get; set; }
+    public Patient? PatientBookedBy { get; set; }
+    public ServiceReferral? ServiceReferralBookedWith { get; set; }
 }

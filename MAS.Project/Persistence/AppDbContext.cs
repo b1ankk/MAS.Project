@@ -9,11 +9,20 @@ public class AppDbContext : DbContext
     public AppDbContext(DbContextOptions options)
         : base(options) { }
     
-    public DbSet<User> User { get; protected set; } = null!;
-    public DbSet<Patient> Patient { get; protected set; } = null!;
-    public DbSet<MedicalWorker> MedicalWorker { get; protected set; } = null!;
     public DbSet<Doctor> Doctor { get; protected set; } = null!;
+    public DbSet<MedicalWorker> MedicalWorker { get; protected set; } = null!;
+    public DbSet<Medication> Medication { get; protected set; } = null!;
+    public DbSet<MedicationOnPrescription> MedicationOnPrescription { get; protected set; } = null!;
     public DbSet<Nurse> Nurse { get; protected set; } = null!;
+    public DbSet<Patient> Patient { get; protected set; } = null!;
+    public DbSet<Prescription> Prescription { get; protected set; } = null!;
+    public DbSet<Service> Service { get; protected set; } = null!;
+    public DbSet<ServiceReferral> ServiceReferral { get; protected set; } = null!;
+    public DbSet<ServiceResult> ServiceResult { get; protected set; } = null!;
+    public DbSet<ServiceTimeSlot> ServiceTimeSlot { get; protected set; } = null!;
+    public DbSet<ServiceType> ServiceType { get; protected set; } = null!;
+    public DbSet<SickLeave> SickLeave { get; protected set; } = null!;
+    public DbSet<User> User { get; protected set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         base.OnModelCreating(modelBuilder);
@@ -27,5 +36,8 @@ public class AppDbContext : DbContext
         configurationBuilder.Properties<DateOnly>()
             .HaveConversion<DateOnlyConverter>()
             .HaveColumnType("date");
+
+        configurationBuilder.Properties<TimeOnly>()
+            .HaveConversion<TimeOnlyConverter>();
     }
 }

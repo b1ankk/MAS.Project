@@ -16,7 +16,8 @@ public class MedicalWorkerConfiguration : IEntityTypeConfiguration<MedicalWorker
             .WithOne()
             .HasPrincipalKey<User>(x => x.Id)
             .HasForeignKey<MedicalWorker>(x => x.Id)
-            .IsRequired();
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.UseTptMappingStrategy();
     }

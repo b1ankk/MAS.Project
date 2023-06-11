@@ -1,6 +1,6 @@
 ﻿namespace MAS.Project.Model;
 
-public class MedicationOnPrescription
+public class MedicationOnPrescription : Entity
 {
     public required int Amount { get; set; }
     public required decimal FractionRefunded { get; set; }

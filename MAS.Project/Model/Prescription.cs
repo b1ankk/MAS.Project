@@ -1,6 +1,6 @@
 ﻿namespace MAS.Project.Model;
 
-public class Prescription
+public class Prescription : Entity
 {
     public required string PatientFirstName { get; init; }
     public required string PatientLastName { get; init; }
