@@ -13,6 +13,7 @@ public class AppDbContext : DbContext
     public DbSet<Patient> Patient { get; protected set; } = null!;
     public DbSet<MedicalWorker> MedicalWorker { get; protected set; } = null!;
     public DbSet<Doctor> Doctor { get; protected set; } = null!;
+    public DbSet<Nurse> Nurse { get; protected set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         base.OnModelCreating(modelBuilder);
