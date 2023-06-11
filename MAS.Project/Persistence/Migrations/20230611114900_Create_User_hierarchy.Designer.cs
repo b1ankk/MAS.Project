@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MAS.Project.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230610214301_Add_Patient_database_mapping")]
-    partial class Add_Patient_database_mapping
+    [Migration("20230611114900_Create_User_hierarchy")]
+    partial class Create_User_hierarchy
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,27 +25,44 @@ namespace MAS.Project.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.HasSequence("EntitySequence");
-
-            modelBuilder.Entity("MAS.Project.Model.Entity", b =>
+            modelBuilder.Entity("MAS.Project.Model.MedicalWorker", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasDefaultValueSql("NEXT VALUE FOR [EntitySequence]");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseSequence(b.Property<long>("Id"));
+                    b.Property<DateTime>("EmployedDate")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("Salary")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.ToTable((string)null);
+                    b.ToTable("MedicalWorker");
 
-                    b.UseTpcMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("MAS.Project.Model.Patient", b =>
                 {
-                    b.HasBaseType("MAS.Project.Model.Entity");
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("Registered")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Patient");
+                });
+
+            modelBuilder.Entity("MAS.Project.Model.User", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("Birthdate")
                         .HasColumnType("date");
@@ -82,21 +99,56 @@ namespace MAS.Project.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<DateTime>("Registered")
-                        .HasColumnType("datetime2");
+                    b.HasKey("Id");
 
                     b.HasIndex("Email")
-                        .IsUnique()
-                        .HasFilter("[Email] IS NOT NULL");
+                        .IsUnique();
 
-                    b.ToTable("Patient");
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("MAS.Project.Model.Doctor", b =>
+                {
+                    b.HasBaseType("MAS.Project.Model.MedicalWorker");
+
+                    b.Property<string>("AcademicTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Specializations")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("Doctor");
+                });
+
+            modelBuilder.Entity("MAS.Project.Model.MedicalWorker", b =>
+                {
+                    b.HasOne("MAS.Project.Model.User", "Parent")
+                        .WithOne()
+                        .HasForeignKey("MAS.Project.Model.MedicalWorker", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("MAS.Project.Model.Patient", b =>
                 {
+                    b.HasOne("MAS.Project.Model.User", "Parent")
+                        .WithOne()
+                        .HasForeignKey("MAS.Project.Model.Patient", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("MAS.Project.Model.User", b =>
+                {
                     b.OwnsOne("MAS.Project.Model.ValueObjects.Address", "Address", b1 =>
                         {
-                            b1.Property<long>("PatientId")
+                            b1.Property<long>("UserId")
                                 .HasColumnType("bigint");
 
                             b1.Property<string>("ApartmentNumber")
@@ -123,15 +175,24 @@ namespace MAS.Project.Migrations
                                 .HasMaxLength(6)
                                 .HasColumnType("nvarchar(6)");
 
-                            b1.HasKey("PatientId");
+                            b1.HasKey("UserId");
 
-                            b1.ToTable("Patient");
+                            b1.ToTable("User");
 
                             b1.WithOwner()
-                                .HasForeignKey("PatientId");
+                                .HasForeignKey("UserId");
                         });
 
                     b.Navigation("Address")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MAS.Project.Model.Doctor", b =>
+                {
+                    b.HasOne("MAS.Project.Model.MedicalWorker", null)
+                        .WithOne()
+                        .HasForeignKey("MAS.Project.Model.Doctor", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

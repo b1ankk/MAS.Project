@@ -2,7 +2,7 @@
 
 namespace MAS.Project.Model;
 
-public abstract class MedicalWorker : IUser
+public abstract class MedicalWorker : Entity, IUser
 {
     protected MedicalWorker() {
         Parent = new User(this) {
@@ -21,6 +21,11 @@ public abstract class MedicalWorker : IUser
     public required DateOnly EmployedDate { get; set; }
 
     public User Parent { get; }
+
+    public override long Id {
+        get => Parent.Id;
+        set => Parent.Id = value;
+    }
 
     public required string FirstName {
         get => Parent.FirstName;

@@ -21,6 +21,11 @@ public class Patient : Entity, IUser
 
     public User Parent { get; }
 
+    public override long Id {
+        get => Parent.Id;
+        set => Parent.Id = value;
+    }
+
     public required string FirstName {
         get => Parent.FirstName;
         set => Parent.FirstName = value;

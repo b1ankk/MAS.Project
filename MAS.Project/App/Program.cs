@@ -1,4 +1,5 @@
 using MAS.Project.App;
+using MAS.Project.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,5 +25,11 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.Lifetime.ApplicationStarted.Register(
+    () => {
+        using var scope = app.Services.CreateScope();
+        scope.ServiceProvider.GetService<SampleDataService>()!.Seed();
+    });
 
 app.Run();

@@ -7,6 +7,8 @@ public class User : Entity, IUser
     private readonly Patient? patient;
     private readonly MedicalWorker? medicalWorker;
 
+    private User() { }
+
     public User(Patient patient) {
         if (patient is null)
             throw new ArgumentNullException(nameof(patient));
