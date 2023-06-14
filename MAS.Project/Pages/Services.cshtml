@@ -1,0 +1,95 @@
+﻿@page
+@model MAS.Project.Pages.Services
+
+@{
+    ViewData["Title"] = "Services";
+}
+
+<div class="modal fade" id="bookModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title h4">Service details</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <span class="col-4 fs-5">
+                        Service:
+                    </span>
+                    <span class="col fs-5 text-secondary">
+                        Blood test
+                    </span>
+                </div>
+                <div class="row mb-3">
+                    <span class="col-4 fs-5">
+                        Date and time:
+                    </span>
+                    <span class="col fs-5 text-secondary">
+                        23.01.2020 13:45-14:00
+                    </span>
+                </div>
+                <div class="row mb-3">
+                    <span class="col-4 fs-5">
+                        Specialist:
+                    </span>
+                    <span class="col fs-5 text-secondary">
+                        John Smith
+                    </span>
+                </div>
+                <div class="row mb-3">
+                    <span class="col-4 fs-5">
+                        Price:
+                    </span>
+                    <span class="col fs-5 text-secondary">
+                        $123.00
+                    </span>
+                </div>
+                <div class="row mb-3">
+                    <div class="fs-5">
+                        Recommendations before the service:
+                    </div>
+                    <div class="fs-5 text-secondary">
+                        Nothing here...
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary">Book the service</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <h1 class="display-6 py-2">
+        Available time slots - [Service name]
+    </h1>
+    <table class="table table-hover">
+        <thead>
+            <tr class="h5">
+                <th>Date</th>
+                <th>Time</th>
+                <th>Specialist</th>
+                <th>Cost</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr>
+                <td>23.01.2020</td>
+                <td>12:30 - 13:00</td>
+                <td>John Smith</td>
+                <td>$123</td>
+                <td>
+                    <a class="btn btn-link py-0" data-bs-toggle="modal" data-bs-target="#bookModal">
+                        Book
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
