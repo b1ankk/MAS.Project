@@ -1,4 +1,4 @@
-using MAS.Project.App;
+using MAS.Project.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
