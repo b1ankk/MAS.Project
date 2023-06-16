@@ -1,32 +1,41 @@
 {
-  "name": "reactclient",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "start": "rimraf ./dist && npm run dev",
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "devDependencies": {
-    "@types/react": "^18.0.37",
-    "@types/react-dom": "^18.0.11",
-    "@typescript-eslint/eslint-plugin": "^5.59.0",
-    "@typescript-eslint/parser": "^5.59.0",
-    "@vitejs/plugin-react-swc": "^3.0.0",
-    "eslint": "^8.38.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.3.4",
-    "rimraf": "^5.0.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.0.2",
-    "vite": "^4.3.9",
-    "vite-plugin-mkcert": "^1.15.0"
-  }
+    "name": "reactclient",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "start": "rimraf ./dist && npm run dev",
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "bootstrap": "^5.3.0",
+        "bootstrap-icons": "^1.10.5",
+        "react": "^18.2.0",
+        "react-bootstrap": "^2.7.4",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+        "@types/react": "^18.0.37",
+        "@types/react-dom": "^18.0.11",
+        "@typescript-eslint/eslint-plugin": "^5.59.0",
+        "@typescript-eslint/parser": "^5.59.0",
+        "@vitejs/plugin-react-swc": "^3.0.0",
+        "eslint": "^8.38.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "eslint-plugin-react": "^7.32.2",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "eslint-plugin-react-refresh": "^0.3.4",
+        "prettier": "^2.8.8",
+        "rimraf": "^5.0.1",
+        "stylelint": "^15.7.0",
+        "stylelint-config-recommended": "^12.0.0",
+        "ts-node": "^10.9.1",
+        "typescript": "^5.0.2",
+        "vite": "^4.3.9",
+        "vite-plugin-mkcert": "^1.15.0"
+    }
 }
