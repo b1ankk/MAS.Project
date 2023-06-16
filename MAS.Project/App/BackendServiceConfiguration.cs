@@ -1,4 +1,5 @@
 ﻿using MAS.Project.Persistence;
+using MAS.Project.Repositories;
 using MAS.Project.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,7 @@ public static class BackendServiceConfiguration
             options => options.UseSqlServer(configuration.GetConnectionString("Database"))
         );
         services.AddTransient<SampleDataService>();
+        services.AddScoped<IServiceTypeRepository, ServiceTypeRepository>();
         return services;
     }
 }

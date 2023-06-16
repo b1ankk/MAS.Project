@@ -2,7 +2,7 @@
 
 namespace MAS.Project.Pages;
 
-public class Services : PageModel
+public class ServicesModel : PageModel
 {
     public void OnGet() { }
 }
