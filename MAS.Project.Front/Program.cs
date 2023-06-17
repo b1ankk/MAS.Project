@@ -1,5 +1,7 @@
 using MAS.Project.Configuration;
 
+const string AllowAllCorsOriginsForDev = "AllowAllCorsOriginsForDev";
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddBackendServices(builder.Configuration);
@@ -7,6 +9,17 @@ builder.Services.AddBackendServices(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: AllowAllCorsOriginsForDev,
+        policy => policy
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()
+            .WithOrigins("https://localhost:5173")
+    );
+});
 
 var app = builder.Build();
 
@@ -21,6 +34,12 @@ else {
 }
 
 app.UseHttpsRedirection();
+
+if (app.Environment.IsDevelopment())
+    app.UseCors(AllowAllCorsOriginsForDev);
+else
+    app.UseCors();
+
 app.UseStaticFiles();
 app.UseRouting();
 

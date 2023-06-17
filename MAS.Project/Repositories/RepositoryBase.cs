@@ -4,5 +4,9 @@ namespace MAS.Project.Repositories;
 
 public abstract class RepositoryBase
 {
-    public required AppDbContext DbContext { get; init; }
+    protected readonly AppDbContext DbContext;
+
+    protected RepositoryBase(AppDbContext dbContext) {
+        DbContext = dbContext;
+    }
 }
