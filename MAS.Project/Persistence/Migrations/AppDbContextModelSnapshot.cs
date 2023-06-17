@@ -36,7 +36,7 @@ namespace MAS.Project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MedicalWorker");
+                    b.ToTable("MedicalWorker", (string)null);
 
                     b.UseTptMappingStrategy();
                 });
@@ -59,7 +59,7 @@ namespace MAS.Project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Medication");
+                    b.ToTable("Medication", (string)null);
                 });
 
             modelBuilder.Entity("MAS.Project.Model.MedicationOnPrescription", b =>
@@ -89,7 +89,7 @@ namespace MAS.Project.Migrations
 
                     b.HasIndex("PrescriptionId");
 
-                    b.ToTable("MedicationOnPrescription");
+                    b.ToTable("MedicationOnPrescription", (string)null);
                 });
 
             modelBuilder.Entity("MAS.Project.Model.Patient", b =>
@@ -102,7 +102,7 @@ namespace MAS.Project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Patient");
+                    b.ToTable("Patient", (string)null);
                 });
 
             modelBuilder.Entity("MAS.Project.Model.Prescription", b =>
@@ -150,7 +150,7 @@ namespace MAS.Project.Migrations
 
                     b.HasIndex("ServiceResultId");
 
-                    b.ToTable("Prescription");
+                    b.ToTable("Prescription", (string)null);
                 });
 
             modelBuilder.Entity("MAS.Project.Model.Service", b =>
@@ -182,7 +182,7 @@ namespace MAS.Project.Migrations
 
                     b.HasIndex("ServiceTypeId");
 
-                    b.ToTable("Service");
+                    b.ToTable("Service", (string)null);
                 });
 
             modelBuilder.Entity("MAS.Project.Model.ServiceReferral", b =>
@@ -213,7 +213,7 @@ namespace MAS.Project.Migrations
 
                     b.HasIndex("ServiceTypeId");
 
-                    b.ToTable("ServiceReferral");
+                    b.ToTable("ServiceReferral", (string)null);
                 });
 
             modelBuilder.Entity("MAS.Project.Model.ServiceResult", b =>
@@ -237,7 +237,7 @@ namespace MAS.Project.Migrations
 
                     b.HasIndex("PatientIssuedForId");
 
-                    b.ToTable("ServiceResult");
+                    b.ToTable("ServiceResult", (string)null);
                 });
 
             modelBuilder.Entity("MAS.Project.Model.ServiceTimeSlot", b =>
@@ -275,7 +275,7 @@ namespace MAS.Project.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("ServiceTimeSlot");
+                    b.ToTable("ServiceTimeSlot", (string)null);
                 });
 
             modelBuilder.Entity("MAS.Project.Model.ServiceType", b =>
@@ -307,7 +307,7 @@ namespace MAS.Project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ServiceType");
+                    b.ToTable("ServiceType", (string)null);
                 });
 
             modelBuilder.Entity("MAS.Project.Model.SickLeave", b =>
@@ -358,7 +358,7 @@ namespace MAS.Project.Migrations
 
                     b.HasIndex("DoctorIssuedById");
 
-                    b.ToTable("SickLeave");
+                    b.ToTable("SickLeave", (string)null);
                 });
 
             modelBuilder.Entity("MAS.Project.Model.User", b =>
@@ -409,7 +409,7 @@ namespace MAS.Project.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("MedicalWorkerService", b =>
@@ -424,7 +424,7 @@ namespace MAS.Project.Migrations
 
                     b.HasIndex("MedicalWorkersConductingId");
 
-                    b.ToTable("MedicalWorkerService");
+                    b.ToTable("MedicalWorkerService", (string)null);
                 });
 
             modelBuilder.Entity("MedicalWorkerServiceType", b =>
@@ -439,7 +439,7 @@ namespace MAS.Project.Migrations
 
                     b.HasIndex("AuthorizedServiceTypesId");
 
-                    b.ToTable("MedicalWorkerServiceType");
+                    b.ToTable("MedicalWorkerServiceType", (string)null);
                 });
 
             modelBuilder.Entity("MAS.Project.Model.Doctor", b =>
@@ -454,7 +454,7 @@ namespace MAS.Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Doctor");
+                    b.ToTable("Doctor", (string)null);
                 });
 
             modelBuilder.Entity("MAS.Project.Model.Nurse", b =>
@@ -465,7 +465,7 @@ namespace MAS.Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Nurse");
+                    b.ToTable("Nurse", (string)null);
                 });
 
             modelBuilder.Entity("MAS.Project.Model.MedicalWorker", b =>
@@ -632,7 +632,7 @@ namespace MAS.Project.Migrations
 
             modelBuilder.Entity("MAS.Project.Model.User", b =>
                 {
-                    b.OwnsOne("MAS.Project.Model.ValueObjects.Address", "Address", b1 =>
+                    b.OwnsOne("MAS.Project.Model.User.Address#MAS.Project.Model.ValueObjects.Address", "Address", b1 =>
                         {
                             b1.Property<long>("UserId")
                                 .HasColumnType("bigint");
@@ -663,7 +663,7 @@ namespace MAS.Project.Migrations
 
                             b1.HasKey("UserId");
 
-                            b1.ToTable("User");
+                            b1.ToTable("User", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");

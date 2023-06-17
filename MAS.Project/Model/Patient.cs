@@ -5,7 +5,7 @@ namespace MAS.Project.Model;
 public class Patient : Entity, IUser
 {
     public Patient() {
-        Parent = new User(this) {
+        ParentUser = new User(this) {
             FirstName = null!,
             LastName = null!,
             Birthdate = default,
@@ -22,64 +22,64 @@ public class Patient : Entity, IUser
     public ICollection<ServiceResult> ServiceResults { get; set; }
     public ICollection<ServiceTimeSlot> BookedServiceTimeSlots { get; set; }
     
-    public User Parent { get; }
+    public User ParentUser { get; }
 
     public override long Id {
-        get => Parent.Id;
-        set => Parent.Id = value;
+        get => ParentUser.Id;
+        set => ParentUser.Id = value;
     }
 
     public required string FirstName {
-        get => Parent.FirstName;
-        set => Parent.FirstName = value;
+        get => ParentUser.FirstName;
+        set => ParentUser.FirstName = value;
     }
 
     public required IList<string> MiddleNames {
-        get => Parent.MiddleNames;
-        set => Parent.MiddleNames = value;
+        get => ParentUser.MiddleNames;
+        set => ParentUser.MiddleNames = value;
     }
 
     public required string LastName {
-        get => Parent.LastName;
-        set => Parent.LastName = value;
+        get => ParentUser.LastName;
+        set => ParentUser.LastName = value;
     }
 
     public string? Pesel {
-        get => Parent.Pesel;
-        set => Parent.Pesel = value;
+        get => ParentUser.Pesel;
+        set => ParentUser.Pesel = value;
     }
 
     public required DateOnly Birthdate {
-        get => Parent.Birthdate;
-        set => Parent.Birthdate = value;
+        get => ParentUser.Birthdate;
+        set => ParentUser.Birthdate = value;
     }
 
     public required string Email {
-        get => Parent.Email;
-        set => Parent.Email = value;
+        get => ParentUser.Email;
+        set => ParentUser.Email = value;
     }
 
     public required string PhoneNumber {
-        get => Parent.PhoneNumber;
-        set => Parent.PhoneNumber = value;
+        get => ParentUser.PhoneNumber;
+        set => ParentUser.PhoneNumber = value;
     }
 
     public required string PasswordHash {
-        get => Parent.PasswordHash;
-        set => Parent.PasswordHash = value;
+        get => ParentUser.PasswordHash;
+        set => ParentUser.PasswordHash = value;
     }
 
     public required Address Address {
-        get => Parent.Address;
-        set => Parent.Address = value;
+        get => ParentUser.Address;
+        set => ParentUser.Address = value;
     }
 
-    public bool IsPatient => Parent.IsPatient;
+    public bool IsPatient => ParentUser.IsPatient;
 
-    public bool IsMedicalWorker => Parent.IsMedicalWorker;
+    public bool IsMedicalWorker => ParentUser.IsMedicalWorker;
 
 
     public static implicit operator User(Patient patient) {
-        return patient.Parent;
+        return patient.ParentUser;
     }
 }

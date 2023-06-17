@@ -19,6 +19,9 @@ public class MedicalWorkerConfiguration : IEntityTypeConfiguration<MedicalWorker
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.Navigation(x => x.Parent)
+            .AutoInclude();
+
         builder.UseTptMappingStrategy();
     }
 }

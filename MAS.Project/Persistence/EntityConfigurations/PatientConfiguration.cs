@@ -9,11 +9,14 @@ public class PatientConfiguration : IEntityTypeConfiguration<Patient>
     public void Configure(EntityTypeBuilder<Patient> builder) {
         builder.ConfigureAsUserDescendant();
 
-        builder.HasOne(x => x.Parent)
+        builder.HasOne(x => x.ParentUser)
             .WithOne()
             .HasPrincipalKey<User>(x => x.Id)
             .HasForeignKey<Patient>(x => x.Id)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.Navigation(x => x.ParentUser)
+            .AutoInclude();
     }
 }

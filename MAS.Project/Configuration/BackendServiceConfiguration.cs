@@ -14,6 +14,7 @@ public static class BackendServiceConfiguration
         );
         services.AddTransient<SampleDataService>();
         services.AddScoped<IServiceTypeRepository, ServiceTypeRepository>();
+        services.AddScoped<IServiceTimeSlotRepository, ServiceTimeSlotRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }

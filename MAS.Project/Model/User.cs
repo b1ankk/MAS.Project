@@ -12,7 +12,7 @@ public class User : Entity, IUser
     public User(Patient patient) {
         if (patient is null)
             throw new ArgumentNullException(nameof(patient));
-        if (patient.Parent is not null && !ReferenceEquals(patient.Parent, this))
+        if (patient.ParentUser is not null && !ReferenceEquals(patient.ParentUser, this))
             throw new InvalidOperationException(
                 $"{nameof(User)} parent has already been assigned for this {nameof(Patient)}"
             );
