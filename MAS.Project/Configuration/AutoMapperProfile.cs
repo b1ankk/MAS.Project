@@ -11,7 +11,7 @@ public class AutoMapperProfile : Profile
         CreateMap<ServiceType, ServiceTypeWithAuthorizedDto>();
         CreateMap<ServiceType, ServiceTypeDto>();
         CreateMap<MedicalWorker, MedicalWorkerDto>();
-        CreateMap<ServiceTimeSlot, BookableServiceTimeSlotDto>();
+        CreateMap<ServiceTimeSlot, ServiceTimeSlotDto>();
         CreateMap<Service, ServiceWithConductingDto>();
     }
 }

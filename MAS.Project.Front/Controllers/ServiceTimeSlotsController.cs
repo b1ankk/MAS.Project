@@ -24,7 +24,7 @@ public class ServiceTimeSlotsController : AppControllerBase
         var serviceTimeSlots = await UnitOfWork.ServiceTimeSlotRepository
             .GetServiceTimeSlotsAsync(serviceTypeId, medicalWorkerId, dateFrom, dateTo);
 
-        var dtos = Mapper.Map<IList<BookableServiceTimeSlotDto>>(serviceTimeSlots);
+        var dtos = Mapper.Map<IList<ServiceTimeSlotDto>>(serviceTimeSlots);
         return Ok(dtos);
     }
 
@@ -38,5 +38,14 @@ public class ServiceTimeSlotsController : AppControllerBase
             return BadRequest();
         }
         return NoContent();
+    }
+
+    [HttpGet]
+    [Route("upcoming")]
+    public async Task<IActionResult> GetUpcoming() {
+        var upcomingServices = await UnitOfWork.ServiceTimeSlotRepository.GetUpcomingServices(UserId);
+
+        var dtos = Mapper.Map<IList<ServiceTimeSlotDto>>(upcomingServices);
+        return Ok(dtos);
     }
 }

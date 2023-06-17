@@ -12,4 +12,5 @@ public interface IServiceTimeSlotRepository
     );
 
     Task BookServiceTimeSlotAsync(long serviceTimeSlotId, long patientId);
+    Task<IList<ServiceTimeSlot>> GetUpcomingServices(long patientId);
 }

@@ -46,4 +46,14 @@ public class ServiceTimeSlotRepository : RepositoryBase, IServiceTimeSlotReposit
 
         await SaveChangesASync();
     }
+
+    public async Task<IList<ServiceTimeSlot>> GetUpcomingServices(long patientId) {
+        return await DbContext.ServiceTimeSlot
+            .Include(x => x.Service.ServiceType)
+            .Include(x => x.Service.MedicalWorkersConducting)
+            .Where(x => x.Status == ServiceTimeSlotStatus.Booked)
+            .Where(x => x.PatientBookedBy!.Id == patientId)
+            .OrderBy(x => x.Start)
+            .ToListAsync();
+    }
 }

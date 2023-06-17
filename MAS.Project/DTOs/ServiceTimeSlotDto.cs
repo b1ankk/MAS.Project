@@ -1,6 +1,6 @@
 ﻿namespace MAS.Project.DTOs;
 
-public class BookableServiceTimeSlotDto : EntityDto
+public class ServiceTimeSlotDto : EntityDto
 {
     public required DateTime Start { get; set; }
     public required DateTime End { get; set; }
