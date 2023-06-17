@@ -1,4 +1,5 @@
 using MAS.Project.Configuration;
+using MAS.Project.Services;
 
 const string AllowAllCorsOriginsForDev = "AllowAllCorsOriginsForDev";
 
@@ -45,5 +46,11 @@ app.UseRouting();
 
 app.MapControllers();
 app.MapFallbackToFile("index.html");
+
+app.Lifetime.ApplicationStarted.Register(
+    () => {
+        using var scope = app.Services.CreateScope();
+        scope.ServiceProvider.GetService<SampleDataService>()!.Seed();
+    });
 
 app.Run();
