@@ -29,7 +29,7 @@ public class ServiceTimeSlotsController : AppControllerBase
     }
 
     [HttpPost]
-    [Route("/{id}/book")]
+    [Route("{id}/book")]
     public async Task<IActionResult> BookServiceTimeSlot(long id) {
         try {
             await UnitOfWork.ServiceTimeSlotRepository.BookServiceTimeSlotAsync(id, UserId);
