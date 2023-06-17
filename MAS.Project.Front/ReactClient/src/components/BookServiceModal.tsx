@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useRef, useState } from 'react';
 import { Button, Form, Modal, Row } from 'react-bootstrap';
+import { Link, createSearchParams } from 'react-router-dom';
+import ServiceSearchContext from '../context/ServiceSearchContext.tsx';
 import ServiceTypeWithAuthorized from '../model/serviceTypeWithAuthorized.ts';
-import { Link } from 'react-router-dom';
 
 type Props = {
     show: boolean;
@@ -10,9 +11,15 @@ type Props = {
 };
 
 export const BookServiceModal = (props: Props) => {
+    const searchContext = useContext(ServiceSearchContext);
+
     const serviceTypes = useRef<ServiceTypeWithAuthorized[]>();
     const [selectedServiceTypeId, setSelectedServiceTypeId] =
         useState<string>();
+    const [selectedMedicalWorkerId, setSelectedMedicalWorkerId] =
+        useState<string>();
+    const [dateFrom, setDateFrom] = useState<string>();
+    const [dateTo, setDateTo] = useState<string>();
 
     useEffect(() => {
         axios
@@ -26,6 +33,15 @@ export const BookServiceModal = (props: Props) => {
 
     const shouldDisableFields = () => {
         return selectedServiceTypeId == null || selectedServiceTypeId === '';
+    };
+
+    const onServiceChange = (e: ChangeEvent<HTMLSelectElement>) => {
+        const id = e.target.value;
+        setSelectedServiceTypeId(id);
+        setSelectedMedicalWorkerId('');
+        searchContext.serviceName = serviceTypes.current?.find(
+            x => x.id.toString() === id
+        )?.name;
     };
 
     return (
@@ -42,13 +58,9 @@ export const BookServiceModal = (props: Props) => {
                         <div className="col-sm">
                             <Form.Select
                                 value={selectedServiceTypeId}
-                                onChange={e =>
-                                    setSelectedServiceTypeId(e.target.value)
-                                }
+                                onChange={onServiceChange}
                             >
-                                <option value="">
-                                    Choose a service
-                                </option>
+                                <option value="">Choose a service</option>
                                 {serviceTypes.current?.map(serviceType => (
                                     <option
                                         key={serviceType.id}
@@ -66,8 +78,9 @@ export const BookServiceModal = (props: Props) => {
                         </Form.Label>
                         <div className="col-sm">
                             <Form.Select
-                                defaultValue=""
                                 disabled={shouldDisableFields()}
+                                value={selectedMedicalWorkerId}
+                                onChange={e => setSelectedMedicalWorkerId(e.target.value)}
                             >
                                 <option value="">Choose a specialist</option>
                                 {serviceTypes.current
@@ -99,6 +112,8 @@ export const BookServiceModal = (props: Props) => {
                                     type="date"
                                     className="form-control"
                                     disabled={shouldDisableFields()}
+                                    value={dateFrom}
+                                    onChange={e => setDateFrom(e.target.value)}
                                 />
                                 <span className="input-group-text">
                                     <i className="bi bi-arrow-right-short"></i>
@@ -107,6 +122,8 @@ export const BookServiceModal = (props: Props) => {
                                     type="date"
                                     className="form-control"
                                     disabled={shouldDisableFields()}
+                                    value={dateTo}
+                                    onChange={e => setDateTo(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -117,8 +134,22 @@ export const BookServiceModal = (props: Props) => {
                 <Button variant="secondary" onClick={props.handleClose}>
                     Cancel
                 </Button>
-                <Link to="/services">
-                    <Button variant="primary" onClick={props.handleClose} disabled={shouldDisableFields()}>
+                <Link
+                    to={{
+                        pathname: 'services',
+                        search: createSearchParams({
+                            serviceTypeId: selectedServiceTypeId!,
+                            medicalWorkerId: selectedMedicalWorkerId ?? '',
+                            dateFrom: dateFrom ?? '',
+                            dateTo: dateTo ?? '',
+                        }).toString(),
+                    }}
+                >
+                    <Button
+                        variant="primary"
+                        onClick={props.handleClose}
+                        disabled={shouldDisableFields()}
+                    >
                         Search
                     </Button>
                 </Link>

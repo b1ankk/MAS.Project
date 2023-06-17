@@ -1,75 +1,59 @@
+import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import ServiceSearchContext from '../context/ServiceSearchContext.tsx';
+import ServiceTimeSlot from '../model/serviceTimeSlot.ts';
+
+const timeFormatOptions: Intl.DateTimeFormatOptions = {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+};
+const dateFormatOptions: Intl.DateTimeFormatOptions = {
+    dateStyle: 'full',
+};
+
 const Services = () => {
+    const searchContext = useContext(ServiceSearchContext);
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [serviceTimeSlots, setServiceTimeSlots] =
+        useState<ServiceTimeSlot[]>();
+
+    useEffect(() => {
+        const serviceTypeId = searchParams.get('serviceTypeId');
+        const medicalWorkerId = searchParams.get('medicalWorkerId');
+        const dateFrom = searchParams.get('dateFrom');
+        const dateTo = searchParams.get('dateTo');
+
+        axios
+            .get('serviceTimeSlots', {
+                params: {
+                    serviceTypeId,
+                    medicalWorkerId,
+                    dateFrom,
+                    dateTo,
+                },
+            })
+            .then(response => {
+                setServiceTimeSlots(response.data as ServiceTimeSlot[]);
+            })
+            .catch(e => console.log(e));
+    }, [searchParams]);
+
+    const displayMedicalWorkersList = (serviceTimeslot: ServiceTimeSlot) => {
+        return serviceTimeslot.service.medicalWorkersConducting
+            .map(mw => `${mw.lastName} ${mw.firstName}`)
+            .join(', ');
+    };
+
     return (
         <>
-            <div className="modal fade" id="bookModal" tabIndex={-1}>
-                <div className="modal-dialog modal-dialog-centered">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h1 className="modal-title h4">Service details</h1>
-                            <button
-                                type="button"
-                                className="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                            ></button>
-                        </div>
-                        <div className="modal-body">
-                            <div className="row mb-3">
-                                <span className="col-4 fs-5">Service:</span>
-                                <span className="col fs-5 text-secondary">
-                                    Blood test
-                                </span>
-                            </div>
-                            <div className="row mb-3">
-                                <span className="col-4 fs-5">
-                                    Date and time:
-                                </span>
-                                <span className="col fs-5 text-secondary">
-                                    23.01.2020 13:45-14:00
-                                </span>
-                            </div>
-                            <div className="row mb-3">
-                                <span className="col-4 fs-5">Specialist:</span>
-                                <span className="col fs-5 text-secondary">
-                                    John Smith
-                                </span>
-                            </div>
-                            <div className="row mb-3">
-                                <span className="col-4 fs-5">Price:</span>
-                                <span className="col fs-5 text-secondary">
-                                    $123.00
-                                </span>
-                            </div>
-                            <div className="row mb-3">
-                                <div className="fs-5">
-                                    Recommendations before the service:
-                                </div>
-                                <div className="fs-5 text-secondary">
-                                    Nothing here...
-                                </div>
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button
-                                type="button"
-                                className="btn btn-secondary"
-                                data-bs-dismiss="modal"
-                            >
-                                Close
-                            </button>
-                            <button type="button" className="btn btn-primary">
-                                Book the service
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div>
                 <h1 className="display-6 py-2">
-                    Available time slots - [Service name]
+                    Available time slots - {searchContext.serviceName}
                 </h1>
-                <table className="table table-hover">
+                <table className="table table-hover table-striped">
                     <thead>
                         <tr className="h5">
                             <th>Date</th>
@@ -80,21 +64,55 @@ const Services = () => {
                         </tr>
                     </thead>
                     <tbody className="table-group-divider">
-                        <tr>
-                            <td>23.01.2020</td>
-                            <td>12:30 - 13:00</td>
-                            <td>John Smith</td>
-                            <td>$123</td>
-                            <td>
-                                <a
-                                    className="btn btn-link py-0"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#bookModal"
-                                >
-                                    Book
-                                </a>
-                            </td>
-                        </tr>
+                        {serviceTimeSlots?.map(serviceTimeSlot => (
+                            <tr key={serviceTimeSlot.id}>
+                                <td className="col-3">
+                                    {new Date(
+                                        serviceTimeSlot.start
+                                    ).toLocaleDateString(
+                                        undefined,
+                                        dateFormatOptions
+                                    )}
+                                </td>
+                                <td  className="col-3">
+                                    {new Date(
+                                        serviceTimeSlot.start
+                                    ).toLocaleTimeString(
+                                        undefined,
+                                        timeFormatOptions
+                                    )}
+                                    {' - '}
+                                    {new Date(
+                                        serviceTimeSlot.end
+                                    ).toLocaleTimeString(
+                                        undefined,
+                                        timeFormatOptions
+                                    )}
+                                </td>
+                                <td  className="col-3">
+                                    {displayMedicalWorkersList(serviceTimeSlot)}
+                                </td>
+                                <td className="col-2">
+                                    {serviceTimeSlot.service.price.toLocaleString(
+                                        undefined,
+                                        {
+                                            style: 'currency',
+                                            currency: 'USD',
+                                            currencyDisplay: 'symbol',
+                                        }
+                                    )}
+                                </td>
+                                <td className="col-1">
+                                    <a
+                                        className="btn btn-link py-0"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#bookModal"
+                                    >
+                                        Book
+                                    </a>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>

@@ -1,4 +1,5 @@
 import Entity from './entity.ts';
+import { MedicalWorker } from './medicalWorker.ts';
 
 interface ServiceTypeWithAuthorized extends Entity {
     name: string;
@@ -7,13 +8,7 @@ interface ServiceTypeWithAuthorized extends Entity {
     minStartTime?: string;
     maxStartTime?: string;
     recommendationsBeforeService?: string;
-    
+
     authorizedMedicalWorkers: MedicalWorker[];
 }
 export default ServiceTypeWithAuthorized;
-
-export interface MedicalWorker extends Entity {
-    firstName: string;
-    lastName: string;
-}
-
