@@ -15,11 +15,11 @@ export const SearchServiceTimeSlotModal = (props: Props) => {
 
     const serviceTypes = useRef<ServiceTypeWithAuthorized[]>();
     const [selectedServiceTypeId, setSelectedServiceTypeId] =
-        useState<string>();
+        useState<string>('');
     const [selectedMedicalWorkerId, setSelectedMedicalWorkerId] =
-        useState<string>();
-    const [dateFrom, setDateFrom] = useState<string>();
-    const [dateTo, setDateTo] = useState<string>();
+        useState<string>('');
+    const [dateFrom, setDateFrom] = useState<string>('');
+    const [dateTo, setDateTo] = useState<string>('');
 
     useEffect(() => {
         axios

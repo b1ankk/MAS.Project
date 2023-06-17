@@ -50,53 +50,62 @@ const Services = () => {
             />
             <div>
                 <h1 className="display-6 py-2">
-                    Available time slots: {' '}
+                    Available time slots:{' '}
                     <span className="fw-bolder">
                         {searchContext.serviceName ??
-                         serviceTimeSlots?.at(0)?.service?.serviceType.name}
+                            serviceTimeSlots?.at(0)?.service?.serviceType.name}
                     </span>
                 </h1>
-                <table className="table table-hover table-striped">
-                    <thead>
-                        <tr className="h5">
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Specialist</th>
-                            <th>Cost</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody className="table-group-divider">
-                        {serviceTimeSlots
-                            ?.map(
-                                serviceTimeSlot =>
-                                    [
-                                        serviceTimeSlot,
-                                        new ServiceTimeSlotFormatter(serviceTimeSlot),
-                                    ] as [ServiceTimeSlot, ServiceTimeSlotFormatter]
-                            )
-                            .map(([slot, formatter]) => (
-                                <tr key={slot.id}>
-                                    <td className="col-3">{formatter.getLocalizedStartDate()}</td>
-                                    <td className="col-3">
-                                        {formatter.getLocalizedStartTime()}
-                                        {' - '}
-                                        {formatter.getLocalizedEndTime()}
-                                    </td>
-                                    <td className="col-3">{formatter.getLastAndFirstNames()}</td>
-                                    <td className="col-2">{formatter.getLocalizedPrice()}</td>
-                                    <td className="col-1">
-                                        <a
-                                            className="btn btn-link py-0"
-                                            onClick={() => showBookModal(slot)}
-                                        >
-                                            Book
-                                        </a>
-                                    </td>
-                                </tr>
-                            ))}
-                    </tbody>
-                </table>
+                {serviceTimeSlots?.length === 0 && (
+                    <p> There is no open service time slots available matching the chosen criteria</p>
+                )}
+                {serviceTimeSlots && serviceTimeSlots.length > 0 && (
+                    <table className="table table-hover table-striped">
+                        <thead>
+                            <tr className="h5">
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Specialist</th>
+                                <th>Cost</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody className="table-group-divider">
+                            {serviceTimeSlots
+                                ?.map(
+                                    serviceTimeSlot =>
+                                        [
+                                            serviceTimeSlot,
+                                            new ServiceTimeSlotFormatter(serviceTimeSlot),
+                                        ] as [ServiceTimeSlot, ServiceTimeSlotFormatter]
+                                )
+                                .map(([slot, formatter]) => (
+                                    <tr key={slot.id}>
+                                        <td className="col-3">
+                                            {formatter.getLocalizedStartDate()}
+                                        </td>
+                                        <td className="col-3">
+                                            {formatter.getLocalizedStartTime()}
+                                            {' - '}
+                                            {formatter.getLocalizedEndTime()}
+                                        </td>
+                                        <td className="col-3">
+                                            {formatter.getLastAndFirstNames()}
+                                        </td>
+                                        <td className="col-2">{formatter.getLocalizedPrice()}</td>
+                                        <td className="col-1">
+                                            <a
+                                                className="btn btn-link py-0"
+                                                onClick={() => showBookModal(slot)}
+                                            >
+                                                Book
+                                            </a>
+                                        </td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </table>
+                )}
             </div>
         </>
     );
