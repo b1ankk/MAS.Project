@@ -1,24 +1,18 @@
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import BookServiceTimeSlotModal from '../components/BookServiceTimeSlotModal.tsx';
 import ServiceSearchContext from '../context/ServiceSearchContext.tsx';
 import ServiceTimeSlot from '../model/serviceTimeSlot.ts';
-
-const timeFormatOptions: Intl.DateTimeFormatOptions = {
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-};
-const dateFormatOptions: Intl.DateTimeFormatOptions = {
-    dateStyle: 'full',
-};
+import ServiceTimeSlotFormatter from '../util/ServiceTimeSlotFormatter.ts';
 
 const Services = () => {
     const searchContext = useContext(ServiceSearchContext);
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const [serviceTimeSlots, setServiceTimeSlots] =
-        useState<ServiceTimeSlot[]>();
+    const [serviceTimeSlots, setServiceTimeSlots] = useState<ServiceTimeSlot[]>();
+    const [bookModalShown, setBookModalShown] = useState(false);
+    const chosenServiceTimeSlot = useRef<ServiceTimeSlot>();
 
     useEffect(() => {
         const serviceTypeId = searchParams.get('serviceTypeId');
@@ -41,17 +35,26 @@ const Services = () => {
             .catch(e => console.log(e));
     }, [searchParams]);
 
-    const displayMedicalWorkersList = (serviceTimeslot: ServiceTimeSlot) => {
-        return serviceTimeslot.service.medicalWorkersConducting
-            .map(mw => `${mw.lastName} ${mw.firstName}`)
-            .join(', ');
+    const showBookModal = (serviceTimeSlot: ServiceTimeSlot) => {
+        chosenServiceTimeSlot.current = serviceTimeSlot;
+        setBookModalShown(true);
     };
 
     return (
         <>
+            <BookServiceTimeSlotModal
+                show={bookModalShown}
+                serviceName={searchContext.serviceName}
+                serviceTimeSlot={chosenServiceTimeSlot.current}
+                handleClose={() => setBookModalShown(false)}
+            />
             <div>
                 <h1 className="display-6 py-2">
-                    Available time slots - {searchContext.serviceName}
+                    Available time slots: {' '}
+                    <span className="fw-bolder">
+                        {searchContext.serviceName ??
+                         serviceTimeSlots?.at(0)?.service?.serviceType.name}
+                    </span>
                 </h1>
                 <table className="table table-hover table-striped">
                     <thead>
@@ -64,55 +67,34 @@ const Services = () => {
                         </tr>
                     </thead>
                     <tbody className="table-group-divider">
-                        {serviceTimeSlots?.map(serviceTimeSlot => (
-                            <tr key={serviceTimeSlot.id}>
-                                <td className="col-3">
-                                    {new Date(
-                                        serviceTimeSlot.start
-                                    ).toLocaleDateString(
-                                        undefined,
-                                        dateFormatOptions
-                                    )}
-                                </td>
-                                <td  className="col-3">
-                                    {new Date(
-                                        serviceTimeSlot.start
-                                    ).toLocaleTimeString(
-                                        undefined,
-                                        timeFormatOptions
-                                    )}
-                                    {' - '}
-                                    {new Date(
-                                        serviceTimeSlot.end
-                                    ).toLocaleTimeString(
-                                        undefined,
-                                        timeFormatOptions
-                                    )}
-                                </td>
-                                <td  className="col-3">
-                                    {displayMedicalWorkersList(serviceTimeSlot)}
-                                </td>
-                                <td className="col-2">
-                                    {serviceTimeSlot.service.price.toLocaleString(
-                                        undefined,
-                                        {
-                                            style: 'currency',
-                                            currency: 'USD',
-                                            currencyDisplay: 'symbol',
-                                        }
-                                    )}
-                                </td>
-                                <td className="col-1">
-                                    <a
-                                        className="btn btn-link py-0"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#bookModal"
-                                    >
-                                        Book
-                                    </a>
-                                </td>
-                            </tr>
-                        ))}
+                        {serviceTimeSlots
+                            ?.map(
+                                serviceTimeSlot =>
+                                    [
+                                        serviceTimeSlot,
+                                        new ServiceTimeSlotFormatter(serviceTimeSlot),
+                                    ] as [ServiceTimeSlot, ServiceTimeSlotFormatter]
+                            )
+                            .map(([slot, formatter]) => (
+                                <tr key={slot.id}>
+                                    <td className="col-3">{formatter.getLocalizedStartDate()}</td>
+                                    <td className="col-3">
+                                        {formatter.getLocalizedStartTime()}
+                                        {' - '}
+                                        {formatter.getLocalizedEndTime()}
+                                    </td>
+                                    <td className="col-3">{formatter.getLastAndFirstNames()}</td>
+                                    <td className="col-2">{formatter.getLocalizedPrice()}</td>
+                                    <td className="col-1">
+                                        <a
+                                            className="btn btn-link py-0"
+                                            onClick={() => showBookModal(slot)}
+                                        >
+                                            Book
+                                        </a>
+                                    </td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
             </div>

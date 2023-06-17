@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import BookServiceModal from '../components/BookServiceModal.tsx';
+import SearchServiceTimeSlotModal from '../components/SearchServiceTimeSlotModal.tsx';
 import './MainLayout.css';
 
 export const MainLayout = () => {
@@ -8,7 +8,7 @@ export const MainLayout = () => {
 
     return (
         <>
-            <BookServiceModal
+            <SearchServiceTimeSlotModal
                 show={showModal}
                 handleClose={() => setShowModal(false)}
             />

@@ -9,6 +9,7 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile() {
         CreateMap<ServiceType, ServiceTypeWithAuthorizedDto>();
+        CreateMap<ServiceType, ServiceTypeDto>();
         CreateMap<MedicalWorker, MedicalWorkerDto>();
         CreateMap<ServiceTimeSlot, BookableServiceTimeSlotDto>();
         CreateMap<Service, ServiceWithConductingDto>();

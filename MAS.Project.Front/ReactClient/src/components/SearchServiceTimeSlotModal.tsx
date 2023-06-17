@@ -10,7 +10,7 @@ type Props = {
     handleClose?: () => void;
 };
 
-export const BookServiceModal = (props: Props) => {
+export const SearchServiceTimeSlotModal = (props: Props) => {
     const searchContext = useContext(ServiceSearchContext);
 
     const serviceTypes = useRef<ServiceTypeWithAuthorized[]>();
@@ -47,7 +47,7 @@ export const BookServiceModal = (props: Props) => {
     return (
         <Modal show={props.show} onHide={props.handleClose} centered>
             <Modal.Header closeButton>
-                <Modal.Title>Book a service</Modal.Title>
+                <Modal.Title className="h4">Book a service</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
@@ -158,4 +158,4 @@ export const BookServiceModal = (props: Props) => {
     );
 };
 
-export default BookServiceModal;
+export default SearchServiceTimeSlotModal;
