@@ -40,4 +40,6 @@ public class AppDbContext : DbContext
         configurationBuilder.Properties<TimeOnly>()
             .HaveConversion<TimeOnlyConverter>();
     }
+
+    
 }
