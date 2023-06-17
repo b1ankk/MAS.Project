@@ -9,6 +9,8 @@ namespace MAS.Project.Front.Controllers;
 [Route("api/[controller]")]
 public class ServiceTimeSlotsController : AppControllerBase
 {
+    private const long UserId = 1; 
+    
     public ServiceTimeSlotsController(IUnitOfWork unitOfWork, IMapper mapper)
         : base(unitOfWork, mapper) { }
     
@@ -20,9 +22,21 @@ public class ServiceTimeSlotsController : AppControllerBase
         [FromQuery] DateTime? dateTo
     ) {
         var serviceTimeSlots = await UnitOfWork.ServiceTimeSlotRepository
-            .GetServiceTimeSlots(serviceTypeId, medicalWorkerId, dateFrom, dateTo);
+            .GetServiceTimeSlotsAsync(serviceTypeId, medicalWorkerId, dateFrom, dateTo);
 
         var dtos = Mapper.Map<IList<BookableServiceTimeSlotDto>>(serviceTimeSlots);
         return Ok(dtos);
+    }
+
+    [HttpPost]
+    [Route("/{id}/book")]
+    public async Task<IActionResult> BookServiceTimeSlot(long id) {
+        try {
+            await UnitOfWork.ServiceTimeSlotRepository.BookServiceTimeSlotAsync(id, UserId);
+        }
+        catch (InvalidOperationException e) {
+            return BadRequest();
+        }
+        return NoContent();
     }
 }

@@ -10,7 +10,7 @@ public class ServiceTimeSlotRepository : RepositoryBase, IServiceTimeSlotReposit
     public ServiceTimeSlotRepository(AppDbContext dbContext)
         : base(dbContext) { }
 
-    public async Task<IList<ServiceTimeSlot>> GetServiceTimeSlots(
+    public async Task<IList<ServiceTimeSlot>> GetServiceTimeSlotsAsync(
         long serviceTypeId,
         long? medicalWorkerId,
         DateTime? dateFrom,
@@ -29,5 +29,21 @@ public class ServiceTimeSlotRepository : RepositoryBase, IServiceTimeSlotReposit
             .Where(x => x.Status == ServiceTimeSlotStatus.Open)
             .OrderBy(x => x.Start)
             .ToListAsync();
+    }
+
+    public async Task BookServiceTimeSlotAsync(long serviceTimeSlotId, long patientId) {
+        var serviceTimeSlot = await DbContext.ServiceTimeSlot.FindAsync(serviceTimeSlotId);
+        var patient = await DbContext.Patient.FindAsync(patientId);
+
+        if (serviceTimeSlot?.Status != ServiceTimeSlotStatus.Open
+            || serviceTimeSlot.PatientBookedBy is not null
+            || serviceTimeSlot.Archived) {
+            throw new InvalidOperationException();
+        }
+
+        serviceTimeSlot.PatientBookedBy = patient;
+        serviceTimeSlot.Status = ServiceTimeSlotStatus.Booked;
+
+        await SaveChangesASync();
     }
 }

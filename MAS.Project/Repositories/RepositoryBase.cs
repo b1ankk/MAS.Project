@@ -9,4 +9,8 @@ public abstract class RepositoryBase
     protected RepositoryBase(AppDbContext dbContext) {
         DbContext = dbContext;
     }
+
+    public async Task SaveChangesASync() {
+        await DbContext.SaveChangesAsync();
+    }
 }
