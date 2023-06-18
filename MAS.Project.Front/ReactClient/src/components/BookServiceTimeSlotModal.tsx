@@ -38,7 +38,7 @@ const BookServiceTimeSlotModal = (props: Props) => {
     };
 
     return (
-        <Modal show={props.show} onHide={props.handleClose}>
+        <Modal show={props.show} onHide={props.handleClose} centered>
             <Modal.Header closeButton>
                 <Modal.Title className="h4">Book a service</Modal.Title>
             </Modal.Header>
